@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ================= META ================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusBook | Seat Selection</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="/bus/frontend/css/seat-selection.css">
+
+    <!-- Page Specific CSS -->
+    <link rel="stylesheet" href="/bus/frontend/css/style.css">
+</head>
+
+<body>
+<div id="toastContainer"></div>
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <div class="container nav-container">
+        <div class="logo">
+            <i class="fa-solid fa-bus"></i> BusBook
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="bus-listing.html">My Bookings</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ================= BUS SUMMARY ================= -->
+<section class="bus-summary">
+    <div class="container summary-box">
+        <h2 id="busName">Bus Name</h2>
+        <p id="busType">Type</p>
+
+        <div class="timing-info">
+            <span id="departureTime">Departure</span>
+            <span>→</span>
+            <span id="arrivalTime">Arrival</span>
+        </div>
+
+        <p id="busPrice">Price per seat: ₹0</p>
+    </div>
+</section>
+
+<!-- ================= SEAT LAYOUT ================= -->
+<section class="seat-layout-section">
+    <div class="container seat-container">
+
+        <!-- Seat Legend -->
+        <div class="seat-legend">
+            <div><span class="seat available"></span> Available</div>
+            <div><span class="seat selected"></span> Selected</div>
+            <div><span class="seat booked"></span> Booked</div>
+        </div>
+
+        <!-- Bus Layout -->
+        <div class="bus-layout">
+            <div class="driver">Driver</div>
+
+            <div class="seat-grid" id="seatGrid">
+                <!-- Seats will be generated dynamically -->
+            </div>
+        </div>
+
+        <!-- Price Summary -->
+        <div class="price-summary">
+            <h3>Selected Seats: <span id="selectedSeats">None</span></h3>
+            <h3>Total Price: ₹<span id="totalPrice">0</span></h3>
+
+            <button id="continueBtn" disabled>
+                Continue to Payment
+            </button>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="container footer-container">
+        <div class="footer-col">
+            <h3>BusBook</h3>
+            <p>Secure & Fast Bus Booking Platform</p>
+        </div>
+        <div class="footer-col">
+            <h4>Support</h4>
+            <p>Email: support@busbook.com</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 BusBook. All Rights Reserved.
+    </div>
+</footer>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script src="/bus/frontend/js/seat-selection.js"></script>
+<script src="/bus/frontend/js/ui.js"></script>
+</body>
+</html>

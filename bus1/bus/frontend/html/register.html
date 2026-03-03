@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BusBook | Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+
+<body>
+<div id="toastContainer"></div>
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <div class="container nav-container">
+        <div class="logo">🚌 BusBook</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ================= REGISTER SECTION ================= -->
+<section class="auth-section">
+    <div class="container auth-container">
+
+        <div class="auth-card">
+            <h2>Create Account</h2>
+            <p>Sign up to book your bus tickets easily</p>
+
+            <form id="registerForm">
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="regName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="regConfirmPassword" required>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn-auth">
+                        Register
+                    </button>
+                </div>
+
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? 
+                    <a href="login.html">Login here</a>
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="container footer-container">
+        <div class="footer-col">
+            <h3>BusBook</h3>
+            <p>Safe & Smart Bus Travel Solution</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 BusBook. All Rights Reserved.
+    </div>
+</footer>
+
+<!-- ================= JS ================= -->
+<script src="../js/auth.js"></script>
+<script src="../js/ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ================= META ================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusBook | Bus Listing</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/frontend/css/style.css">
+
+    <!-- Page Specific CSS -->
+    <link rel="stylesheet" href="/frontend/css/bus-listing.css">
+</head>
+
+<body>
+<div id="toastContainer"></div>
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <div class="container nav-container">
+        <div class="logo">
+            <i class="fa-solid fa-bus"></i> BusBook
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="seat-selection.html">My Bookings</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ================= SEARCH SUMMARY ================= -->
+<section class="search-summary">
+    <div class="container summary-container">
+        <div class="route-info">
+            <h2 id="routeTitle">Delhi → Mumbai</h2>
+            <p id="travelDate">Date: 2026-02-27</p>
+        </div>
+
+        <div class="sort-options">
+            <label>Sort By:</label>
+            <select id="sortSelect">
+                <option value="priceLow">Price (Low to High)</option>
+                <option value="priceHigh">Price (High to Low)</option>
+                <option value="departure">Departure Time</option>
+            </select>
+        </div>
+    </div>
+</section>
+
+<!-- ================= MAIN CONTENT ================= -->
+<section class="listing-section">
+    <div class="container listing-container">
+
+        <!-- ================= FILTER SIDEBAR ================= -->
+        <aside class="filters">
+            <h3>Filters</h3>
+
+            <div class="filter-group">
+                <label><input type="checkbox" value="AC"> AC Bus</label>
+                <label><input type="checkbox" value="Non-AC"> Non-AC Bus</label>
+            </div>
+
+            <div class="filter-group">
+                <label><input type="checkbox" value="Sleeper"> Sleeper</label>
+                <label><input type="checkbox" value="Seater"> Seater</label>
+            </div>
+
+            <div class="filter-group">
+                <label>Price Range</label>
+                <input type="range" min="300" max="2000" value="2000" id="priceRange">
+                <span id="priceValue">2000</span>
+            </div>
+        </aside>
+
+        <!-- ================= BUS CARDS CONTAINER ================= -->
+        <div class="bus-results" id="busContainer">
+
+            <!-- Bus Card Example (Dynamic JS will fill more) -->
+
+            <div class="bus-card">
+                <div class="bus-left">
+                    <h3>Express Travels</h3>
+                    <p>AC Sleeper</p>
+                    <div class="timing">
+                        <span>18:00</span>
+                        <span>→</span>
+                        <span>06:00</span>
+                    </div>
+                    <p>Duration: 12h</p>
+                </div>
+
+                <div class="bus-middle">
+                    <p class="price">₹1200</p>
+                    <p>Seats Available: 12</p>
+                </div>
+
+                <div class="bus-right">
+                    <button class="btn-select">Select Seat</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="container footer-container">
+        <div class="footer-col">
+            <h3>BusBook</h3>
+            <p>Your trusted bus booking partner.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Support</h4>
+            <p>Email: support@busbook.com</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2026 BusBook. All Rights Reserved.
+    </div>
+</footer>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script src="/frontend/js/bus-listing.js"></script>
+<script src="/frontend/js/ui.js"></script>
+</body>
+</html>

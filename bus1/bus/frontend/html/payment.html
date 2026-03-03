@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ================= META ================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusBook | Payment</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Correct CSS Path -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/payment.css">
+
+    <style>
+        /* ===== PREMIUM TICKET PREVIEW DESIGN ===== */
+
+        .ticket-preview {
+            margin-top: 30px;
+            padding: 25px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            max-width: 500px;
+        }
+
+        .ticket-header {
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .ticket-body {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .ticket-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        #qrCode {
+            margin-top: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div id="toastContainer"></div>
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <div class="container nav-container">
+        <div class="logo">
+            <i class="fa-solid fa-bus"></i> BusBook
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ================= BOOKING SUMMARY ================= -->
+<section class="booking-summary">
+    <div class="container summary-box">
+        <h2>Booking Summary</h2>
+        <p id="summaryBus">Bus: -</p>
+        <p id="summarySeats">Seats: -</p>
+        <p id="summaryAmount">Total Amount: ₹0</p>
+    </div>
+</section>
+
+<!-- ================= PAYMENT SECTION ================= -->
+<section class="payment-section">
+    <div class="container payment-container">
+
+        <!-- Passenger Form -->
+        <div class="passenger-form">
+            <h3>Passenger Details</h3>
+
+            <form id="paymentForm">
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Select Method</option>
+                        <option value="card">Credit/Debit Card</option>
+                        <option value="upi">UPI</option>
+                        <option value="netbanking">Net Banking</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-pay">
+                    Pay Now
+                </button>
+
+            </form>
+        </div>
+
+        <!-- Success Box -->
+        <div class="success-box" id="successBox" style="display:none;">
+            <h3>Booking Confirmed 🎉</h3>
+            <p>Your ticket has been successfully booked.</p>
+
+            <!-- PREMIUM TICKET PREVIEW -->
+            <div class="ticket-preview">
+                <div class="ticket-header">
+                    <h3>BusBook E-Ticket</h3>
+                </div>
+                <div class="ticket-body">
+                    <div class="ticket-row">
+                        <span>Ticket ID:</span>
+                        <span id="ticketIdPreview"></span>
+                    </div>
+                    <div class="ticket-row">
+                        <span>Bus:</span>
+                        <span id="busPreview"></span>
+                    </div>
+                    <div class="ticket-row">
+                        <span>Seats:</span>
+                        <span id="seatPreview"></span>
+                    </div>
+                    <div class="ticket-row">
+                        <span>Total Paid:</span>
+                        <span id="amountPreview"></span>
+                    </div>
+
+                    <div id="qrCode"></div>
+                </div>
+            </div>
+
+            <button id="downloadTicket" style="margin-top:20px;">
+                Download Premium PDF
+            </button>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+    <div class="container footer-container">
+        <div class="footer-col">
+            <h3>BusBook</h3>
+            <p>Safe and Secure Booking</p>
+        </div>
+        <div class="footer-col">
+            <h4>Support</h4>
+            <p>Email: support@busbook.com</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 BusBook. All Rights Reserved.
+    </div>
+</footer>
+
+<!-- ================= LIBRARIES ================= -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<!-- Correct JS Path -->
+<script src="../js/payment.js"></script>
+<script src="../js/ui.js"></script>
+</body>
+</html>

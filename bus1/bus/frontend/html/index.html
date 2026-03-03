@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ================= META TAGS ================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ================= TITLE ================= -->
+    <title>BusBook | Book Bus Tickets Online</title>
+
+    <!-- ================= GOOGLE FONTS ================= -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- ================= FONT AWESOME ================= -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- ================= CUSTOM CSS ================= -->
+    <link rel="stylesheet" href="/frontend/css/style.css">
+</head>
+
+<body>
+<div id="toastContainer"></div>
+<!-- ===================================================== -->
+<!-- ==================== NAVBAR ========================= -->
+<!-- ===================================================== -->
+
+<nav class="navbar">
+    <div class="container nav-container">
+        <div class="logo">
+            <i class="fa-solid fa-bus"></i> BusBook
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="bus-listing.html">My Bookings</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html" class="btn-login">Login</a></li>
+            <li><a href="register.html" class="btn-register">Register</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ===================================================== -->
+<!-- ================= HERO SECTION ====================== -->
+<!-- ===================================================== -->
+
+<section class="hero">
+    <div class="container hero-content">
+
+        <h1>India's Most Trusted Bus Booking Platform</h1>
+        <p>Book bus tickets across 1000+ routes with best prices and secure payment.</p>
+
+        <!-- ================= SEARCH FORM ================= -->
+        <div class="search-card">
+
+            <form id="searchForm">
+
+                <div class="form-group">
+                    <label>From</label>
+                    <input type="text" id="from" placeholder="Enter Departure City" required>
+                </div>
+
+                <div class="form-group">
+                    <label>To</label>
+                    <input type="text" id="to" placeholder="Enter Destination City" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="date" required>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn-search">
+                        <i class="fa-solid fa-magnifying-glass"></i> Search Buses
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- ================= FEATURES SECTION ================== -->
+<!-- ===================================================== -->
+
+<section class="features">
+    <div class="container">
+        <h2>Why Choose BusBook?</h2>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h3>Secure Payments</h3>
+                <p>All transactions are protected with industry-level encryption.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fa-solid fa-bolt"></i>
+                <h3>Fast Booking</h3>
+                <p>Book tickets within seconds using our smart booking engine.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fa-solid fa-headset"></i>
+                <h3>24/7 Support</h3>
+                <p>Our support team is always ready to help you anytime.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fa-solid fa-tags"></i>
+                <h3>Best Prices</h3>
+                <p>Get the best deals and cashback offers on every booking.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- ================= HOW IT WORKS ====================== -->
+<!-- ===================================================== -->
+
+<section class="how-it-works">
+    <div class="container">
+        <h2>How It Works</h2>
+
+        <div class="steps">
+
+            <div class="step">
+                <span>1</span>
+                <h4>Search Bus</h4>
+                <p>Enter your route and travel date.</p>
+            </div>
+
+            <div class="step">
+                <span>2</span>
+                <h4>Select Seat</h4>
+                <p>Choose your preferred bus and seat.</p>
+            </div>
+
+            <div class="step">
+                <span>3</span>
+                <h4>Make Payment</h4>
+                <p>Complete secure payment and get ticket.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ===================================================== -->
+<!-- ================= FOOTER ============================ -->
+<!-- ===================================================== -->
+
+<footer class="footer">
+    <div class="container footer-container">
+
+        <div class="footer-col">
+            <h3>BusBook</h3>
+            <p>Leading online bus ticket booking platform in India.</p>
+        </div>
+
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="terms.html">Terms</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <p>Email: support@busbook.com</p>
+            <p>Phone: +91 8002809608</p>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 BusBook. All Rights Reserved.
+    </div>
+</footer>
+
+<!-- ===================================================== -->
+<!-- ================= JAVASCRIPT ======================== -->
+<!-- ===================================================== -->
+
+<script src="/frontend/js/main.js"></script>
+<script src="/frontend/js/ui.js"></script>
+</body>
+</html>
