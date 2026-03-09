@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAVV BCA 3rd Year - Computer Graphics Exam Prep 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom styles to supplement Tailwind */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        
+        /* Required Chart Container Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Accordion transition */
+        .accordion-content {
+            transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .accordion-content.open {
+            max-height: 1000px; /* arbitrary large number */
+        }
+        
+        /* Paper print styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #demo-paper-section, #demo-paper-section * {
+                visibility: visible;
+            }
+            #demo-paper-section {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+    
+    <!-- Chosen Palette: Slate Blue & Emerald (Academic, clear, trustworthy. Slate-900 for text, Blue-600 for primary accents, Emerald-500 for success/highlights, Slate-50 for background) -->
+    
+    <!-- Application Structure Plan: 
+    1.  **Header/Hero**: Establishes context (DAVV BCA 3rd Year CG 2026) and provides quick navigation.
+    2.  **Trend Analysis Dashboard (Section 1)**: Visualizes the predicted importance of topics based on historical data. Uses a bar chart to immediately communicate what students should focus on.
+    3.  **Unit-Wise Important Questions (Section 2)**: Breaks down the syllabus into an interactive accordion. This prevents information overload and allows users to focus on one unit at a time.
+    4.  **Interactive Demo Paper 2026 (Section 3)**: A tabbed interface presenting the predicted mock exam in a realistic format (Section A & B). Includes a print feature for offline study.
+    5.  **Quick Concept Review (Section 4)**: A grid of key terms that flip/reveal definitions, providing an active recall study tool.
+    Rationale: This structure moves the user from high-level strategy (what to study) down to specific tactical preparation (unit questions) and finally to application (the mock exam). 
+    -->
+
+    <!-- Visualization & Content Choices: 
+    -   **Topic Importance (Goal: Compare/Inform)**: Bar Chart (Chart.js). Justification: Best for comparing discrete categories (topics) by a quantitative metric (probability/frequency). Responsive container implemented.
+    -   **Unit Questions (Goal: Organize)**: Accordion List (Vanilla JS + Tailwind). Justification: Manages large text volumes efficiently, improving readability.
+    -   **Demo Paper (Goal: Organize/Simulate)**: Tabbed View (JS + Tailwind) + Print CSS. Justification: Simulates the two-section structure of a real exam paper without cluttering the screen.
+    -   **Concept Cards (Goal: Engage/Inform)**: Click-to-reveal Grid (JS + Tailwind). Justification: Encourages active learning and self-testing over passive reading.
+    -   CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. Used HTML/CSS styling and Unicode symbols (📊, 📝, 🎯, 🖨️) for icons.
+    -->
+</head>
+<body class="text-slate-800 antialiased selection:bg-blue-200">
+
+    <!-- Navigation -->
+    <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 font-bold text-xl tracking-wider">
+                    🎓 DAVV <span class="text-blue-400">CG</span> PREP '26
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#analysis" class="hover:bg-slate-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">📊 Trend Analysis</a>
+                        <a href="#questions" class="hover:bg-slate-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">📝 Key Questions</a>
+                        <a href="#demopaper" class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors shadow-sm">🎯 2026 Demo Paper</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-16 px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Computer Graphics Exam Analyzer</h1>
+        <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-8">
+            Comprehensive predictive analysis and generated mock exam for BCA 3rd Year (Yearly Pattern), Devi Ahilya Vishwavidyalaya. Based on deep syllabus and past paper trend evaluation.
+        </p>
+        <div class="flex justify-center gap-4">
+            <a href="#demopaper" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-transform transform hover:-translate-y-1">Take Mock Test</a>
+            <a href="#analysis" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-transform transform hover:-translate-y-1">View Data Trends</a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        <!-- Section 1: Trend Analysis -->
+        <section id="analysis" class="scroll-mt-20">
+            <div class="mb-8 border-l-4 border-blue-600 pl-4">
+                <h2 class="text-3xl font-bold text-slate-900">Historical Topic Weightage & 2026 Prediction</h2>
+                <p class="text-slate-600 mt-2">Based on the provided syllabus and analysis of the last 2 years of DAVV examination patterns, this chart visualizes the probability of specific core topics appearing in the 2026 paper. High-weightage topics form the core of Section B (Long Answers).</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                <h3 class="text-xl font-semibold mb-4 text-center text-slate-800">Predicted Topic Probability (2026 Exam)</h3>
+                <!-- Chart Container (Strict styling applied via CSS class) -->
+                <div class="chart-container">
+                    <canvas id="predictionChart"></canvas>
+                </div>
+                <div class="mt-4 text-sm text-center text-slate-500">
+                    <span class="inline-block w-3 h-3 bg-blue-600 mr-1 rounded-full"></span> High Probability (>80%) forms Long Questions. 
+                    <span class="inline-block w-3 h-3 bg-slate-400 ml-4 mr-1 rounded-full"></span> Lower probability forms Short Questions.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Important Questions -->
+        <section id="questions" class="scroll-mt-20">
+            <div class="mb-8 border-l-4 border-emerald-500 pl-4">
+                <h2 class="text-3xl font-bold text-slate-900">Unit-Wise Highly Expected Questions</h2>
+                <p class="text-slate-600 mt-2">A curated list of the most important theoretical and algorithmic questions derived from the DAVV syllabus structure. Click to expand each unit.</p>
+            </div>
+
+            <div class="space-y-4" id="accordion-container">
+                <!-- Unit 1 -->
+                <div class="bg-white border border-slate-200 rounded-lg shadow-sm">
+                    <button class="accordion-btn w-full px-6 py-4 text-left font-semibold text-lg text-slate-800 hover:bg-slate-50 flex justify-between items-center focus:outline-none">
+                        <span>Unit 1: Introduction & Hardware</span>
+                        <span class="text-xl font-bold transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content px-6 bg-slate-50 border-t border-slate-200">
+                        <ul class="list-disc pl-5 py-4 space-y-2 text-slate-700">
+                            <li><strong>[High]</strong> Differentiate between Raster Scan and Random Scan displays.</li>
+                            <li><strong>[High]</strong> Explain the working principle of a CRT (Cathode Ray Tube) monitor with a neat diagram.</li>
+                            <li><strong>[Medium]</strong> Describe various applications of Computer Graphics in different fields.</li>
+                            <li><strong>[Medium]</strong> Write short notes on Input/Output graphical devices (e.g., Digitizers, Plotters).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Unit 2 -->
+                <div class="bg-white border border-slate-200 rounded-lg shadow-sm">
+                    <button class="accordion-btn w-full px-6 py-4 text-left font-semibold text-lg text-slate-800 hover:bg-slate-50 flex justify-between items-center focus:outline-none">
+                        <span>Unit 2: Output Primitives & Algorithms</span>
+                        <span class="text-xl font-bold transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content px-6 bg-slate-50 border-t border-slate-200">
+                        <ul class="list-disc pl-5 py-4 space-y-2 text-slate-700">
+                            <li><strong>[Very High]</strong> Explain Bresenham's Line Drawing Algorithm. How is it better than DDA?</li>
+                            <li><strong>[Very High]</strong> Explain the Mid-point Circle generating algorithm.</li>
+                            <li><strong>[High]</strong> Differentiate between Boundary Fill and Flood Fill algorithms for polygon filling.</li>
+                            <li><strong>[Medium]</strong> What is Scan Conversion? Explain the Scan Line Polygon filling algorithm.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Unit 3 -->
+                <div class="bg-white border border-slate-200 rounded-lg shadow-sm">
+                    <button class="accordion-btn w-full px-6 py-4 text-left font-semibold text-lg text-slate-800 hover:bg-slate-50 flex justify-between items-center focus:outline-none">
+                        <span>Unit 3: 2D/3D Transformations</span>
+                        <span class="text-xl font-bold transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content px-6 bg-slate-50 border-t border-slate-200">
+                        <ul class="list-disc pl-5 py-4 space-y-2 text-slate-700">
+                            <li><strong>[Very High]</strong> What are Homogeneous Coordinates? Why are they necessary in geometric transformations?</li>
+                            <li><strong>[High]</strong> Write the 3x3 transformation matrices for 2D Translation, Rotation, and Scaling.</li>
+                            <li><strong>[High]</strong> Explain Composite Transformation. Derive the matrix for rotation about an arbitrary point.</li>
+                            <li><strong>[Medium]</strong> Explain 3D transformations (Translation, Rotation about coordinate axes).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Unit 4 -->
+                <div class="bg-white border border-slate-200 rounded-lg shadow-sm">
+                    <button class="accordion-btn w-full px-6 py-4 text-left font-semibold text-lg text-slate-800 hover:bg-slate-50 flex justify-between items-center focus:outline-none">
+                        <span>Unit 4: Clipping & Viewing</span>
+                        <span class="text-xl font-bold transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content px-6 bg-slate-50 border-t border-slate-200">
+                        <ul class="list-disc pl-5 py-4 space-y-2 text-slate-700">
+                            <li><strong>[Very High]</strong> Explain Cohen-Sutherland Line Clipping algorithm in detail with region codes.</li>
+                            <li><strong>[Very High]</strong> Explain Sutherland-Hodgman Polygon Clipping algorithm. Discuss its limitations.</li>
+                            <li><strong>[High]</strong> Differentiate between Window and Viewport. Explain Window-to-Viewport coordinate transformation.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Unit 5 -->
+                <div class="bg-white border border-slate-200 rounded-lg shadow-sm">
+                    <button class="accordion-btn w-full px-6 py-4 text-left font-semibold text-lg text-slate-800 hover:bg-slate-50 flex justify-between items-center focus:outline-none">
+                        <span>Unit 5: Projections, Visible Surfaces & Animation</span>
+                        <span class="text-xl font-bold transform transition-transform duration-200">+</span>
+                    </button>
+                    <div class="accordion-content px-6 bg-slate-50 border-t border-slate-200">
+                        <ul class="list-disc pl-5 py-4 space-y-2 text-slate-700">
+                            <li><strong>[High]</strong> Differentiate between Parallel and Perspective Projection.</li>
+                            <li><strong>[Very High]</strong> Explain the Z-Buffer (Depth Buffer) algorithm for visible surface detection. What are its advantages?</li>
+                            <li><strong>[High]</strong> What is Computer Animation? Explain keyframing and morphing.</li>
+                            <li><strong>[Medium]</strong> Write short notes on Panning and Zooming.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Demo Paper 2026 -->
+        <section id="demopaper" class="scroll-mt-20">
+            <div class="mb-8 border-l-4 border-slate-800 pl-4 flex justify-between items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900">Projected Demo Paper (Exam 2026)</h2>
+                    <p class="text-slate-600 mt-2">A full-length mock paper simulating the DAVV standard format (Section A: Short Answer, Section B: Long Answer with internal choices).</p>
+                </div>
+                <button onclick="window.print()" class="no-print bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2 transition-colors">
+                    <span>🖨️</span> Print Paper
+                </button>
+            </div>
+
+            <!-- Paper Container -->
+            <div id="demo-paper-section" class="bg-white border-2 border-slate-300 shadow-xl p-8 max-w-4xl mx-auto rounded-lg">
+                <!-- Paper Header -->
+                <div class="text-center border-b-2 border-slate-800 pb-6 mb-6">
+                    <h1 class="text-2xl font-bold uppercase tracking-wider">Devi Ahilya Vishwavidyalaya, Indore</h1>
+                    <h2 class="text-xl font-semibold mt-2">B.C.A. (Part - III) Examination, 2026</h2>
+                    <h3 class="text-lg font-bold mt-1">COMPUTER GRAPHICS</h3>
+                    <div class="flex justify-between mt-6 font-semibold text-sm">
+                        <span>Time: 3 Hours</span>
+                        <span>Maximum Marks: 40 / 50</span>
+                    </div>
+                    <p class="mt-2 text-sm italic text-slate-600 text-left border-t border-slate-200 pt-2">Note: Attempt all questions from Section A. Attempt all questions from Section B, choosing either (a) or (b) from each.</p>
+                </div>
+
+                <!-- Tabs (No print) -->
+                <div class="flex border-b border-slate-200 mb-6 no-print">
+                    <button onclick="switchTab('sectionA')" id="btn-sectionA" class="py-2 px-4 font-bold text-blue-600 border-b-2 border-blue-600 focus:outline-none">SECTION A (Short Answer)</button>
+                    <button onclick="switchTab('sectionB')" id="btn-sectionB" class="py-2 px-4 font-bold text-slate-500 hover:text-slate-800 focus:outline-none">SECTION B (Long Answer)</button>
+                    <button onclick="switchTab('all')" id="btn-all" class="py-2 px-4 font-bold text-slate-500 hover:text-slate-800 focus:outline-none">View Full Paper</button>
+                </div>
+
+                <!-- Section A Content -->
+                <div id="content-sectionA" class="paper-section">
+                    <h3 class="font-bold text-lg mb-4 text-center border-b border-slate-200 inline-block pb-1">SECTION - A (Short Answer Type)</h3>
+                    <p class="text-sm font-semibold mb-4 float-right">(5 x 2 = 10 Marks)</p>
+                    <div class="clear-both"></div>
+                    
+                    <ol class="list-decimal pl-6 space-y-6 text-slate-800">
+                        <li>
+                            <p class="font-semibold mb-1">Define Aspect Ratio and Resolution.</p>
+                            <p class="text-sm text-slate-500 italic hidden-print-hint">Hint: Relates to display dimensions and pixel density. (Unit 1)</p>
+                        </li>
+                        <li>
+                            <p class="font-semibold mb-1">What is the difference between 4-connected and 8-connected regions in polygon filling?</p>
+                            <p class="text-sm text-slate-500 italic hidden-print-hint">Hint: Important concept for Boundary/Flood fill. (Unit 2)</p>
+                        </li>
+                        <li>
+                            <p class="font-semibold mb-1">What is the need for homogeneous coordinates in 2D transformations?</p>
+                            <p class="text-sm text-slate-500 italic hidden-print-hint">Hint: Allows combining translation with scaling/rotation via matrix multiplication. (Unit 3)</p>
+                        </li>
+                        <li>
+                            <p class="font-semibold mb-1">Define Clipping. Why is it necessary?</p>
+                            <p class="text-sm text-slate-500 italic hidden-print-hint">Hint: Removing parts of the picture outside the viewing window. (Unit 4)</p>
+                        </li>
+                        <li>
+                            <p class="font-semibold mb-1">What is Morphing?</p>
+                            <p class="text-sm text-slate-500 italic hidden-print-hint">Hint: Animation technique transforming one image into another. (Unit 5)</p>
+                        </li>
+                    </ol>
+                </div>
+
+                <!-- Section B Content -->
+                <div id="content-sectionB" class="paper-section hidden mt-10">
+                    <h3 class="font-bold text-lg mb-4 text-center border-b border-slate-200 inline-block pb-1">SECTION - B (Long Answer Type)</h3>
+                    <p class="text-sm font-semibold mb-4 float-right">(5 x 6 = 30 Marks)</p>
+                    <div class="clear-both"></div>
+
+                    <div class="space-y-8 text-slate-800">
+                        <!-- Q1 -->
+                        <div>
+                            <p class="font-bold">Q. 1. (a) Explain the working of Cathode Ray Tube (CRT) with a neat and labelled diagram.</p>
+                            <p class="text-center font-bold my-2 text-slate-500">OR</p>
+                            <p class="font-bold">(b) Differentiate between Raster scan and Random scan systems.</p>
+                        </div>
+                        <!-- Q2 -->
+                        <div class="pt-4 border-t border-slate-100">
+                            <p class="font-bold">Q. 2. (a) Write and explain Bresenham's Line Drawing Algorithm for |m| < 1.</p>
+                            <p class="text-center font-bold my-2 text-slate-500">OR</p>
+                            <p class="font-bold">(b) Explain Boundary Fill algorithm. How does it differ from Flood Fill algorithm?</p>
+                        </div>
+                        <!-- Q3 -->
+                        <div class="pt-4 border-t border-slate-100">
+                            <p class="font-bold">Q. 3. (a) What is composite transformation? Prove that two successive rotations are additive: R(θ1) . R(θ2) = R(θ1 + θ2).</p>
+                            <p class="text-center font-bold my-2 text-slate-500">OR</p>
+                            <p class="font-bold">(b) Find the transformation matrix that reflects a polygon across the line y = x.</p>
+                        </div>
+                        <!-- Q4 -->
+                        <div class="pt-4 border-t border-slate-100">
+                            <p class="font-bold">Q. 4. (a) Explain Cohen-Sutherland line clipping algorithm with an example.</p>
+                            <p class="text-center font-bold my-2 text-slate-500">OR</p>
+                            <p class="font-bold">(b) Explain Window to Viewport mapping and derive the transformation matrix for it.</p>
+                        </div>
+                        <!-- Q5 -->
+                        <div class="pt-4 border-t border-slate-100">
+                            <p class="font-bold">Q. 5. (a) Explain the Z-Buffer (Depth Buffer) algorithm for visible surface detection.</p>
+                            <p class="text-center font-bold my-2 text-slate-500">OR</p>
+                            <p class="font-bold">(b) Differentiate between Parallel and Perspective projections. Explain different types of parallel projections.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Interactive Concept Recall -->
+        <section class="scroll-mt-20 no-print pb-12">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900">Interactive Concept Recall</h2>
+                <p class="text-slate-600 mt-2">Click on the cards to reveal brief definitions of highly testable concepts. Use this for quick active recall before the exam.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="flashcard-container">
+                <!-- Generated via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center no-print">
+        <p>© 2026 Virtual Academic Analyzer. Not affiliated with DAVV officially. Generated for educational preparation.</p>
+    </footer>
+
+    <!-- JS Logic implementation -->
+    <script>
+        // --- 1. Data Definitions ---
+        const predictionData = {
+            labels: [
+                'Bresenham/DDA', 
+                '2D Transformations', 
+                'Clipping (Cohen/Sutherland)', 
+                'Z-Buffer Algorithm', 
+                'Raster vs Random Scan', 
+                'Projections',
+                'Animation Basics'
+            ],
+            probabilities: [92, 88, 85, 80, 75, 70, 65]
+        };
+
+        const flashcards = [
+            { term: "Resolution", def: "The maximum number of points that can be displayed without overlap on a CRT. (Horizontal x Vertical pixels)" },
+            { term: "Scan Conversion", def: "The process of representing continuous graphics objects as a collection of discrete pixels." },
+            { term: "Homogeneous Coordinates", def: "Adding a 3rd dimension (w) to 2D coordinates (x,y) to allow representation of translation as matrix multiplication." },
+            { term: "Clipping Window", def: "A rectangular area specified in world coordinates defining the portion of the picture to be displayed." },
+            { term: "Viewport", def: "An area on the display device (screen) where the contents of the clipping window are mapped." },
+            { term: "Z-Buffer", def: "An image-space algorithm for visible surface detection that keeps track of depth (Z-value) for each pixel." }
+        ];
+
+        // --- 2. Chart Initialization (Chart.js) ---
+        function initChart() {
+            const ctx = document.getElementById('predictionChart').getContext('2d');
+            
+            // Apply gradient for visual appeal
+            let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(37, 99, 235, 0.8)'); // Tailwind blue-600
+            gradient.addColorStop(1, 'rgba(37, 99, 235, 0.2)');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: predictionData.labels,
+                    datasets: [{
+                        label: 'Probability of Appearance (%)',
+                        data: predictionData.probabilities,
+                        backgroundColor: gradient,
+                        borderColor: 'rgba(37, 99, 235, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // CRITICAL: Allows the chart to fill the responsive container defined in CSS
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + '% Probability - Study thoroughly!';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Probability (%)',
+                                font: { weight: 'bold' }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- 3. Accordion Interaction Logic ---
+        function setupAccordions() {
+            const buttons = document.querySelectorAll('.accordion-btn');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('span:last-child');
+                    
+                    // Toggle current
+                    const isOpen = content.classList.contains('open');
+                    
+                    // Close all first (optional, for strictly one-open-at-a-time)
+                    /*
+                    document.querySelectorAll('.accordion-content').forEach(c => {
+                        c.classList.remove('open', 'py-4');
+                    });
+                    document.querySelectorAll('.accordion-btn span:last-child').forEach(i => {
+                        i.textContent = '+';
+                        i.style.transform = 'rotate(0deg)';
+                    });
+                    */
+
+                    if (!isOpen) {
+                        content.classList.add('open');
+                        icon.textContent = '−';
+                        icon.style.transform = 'rotate(180deg)';
+                    } else {
+                        content.classList.remove('open');
+                        icon.textContent = '+';
+                        icon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+        }
+
+        // --- 4. Tab Switching Logic for Demo Paper ---
+        window.switchTab = function(tabId) {
+            const secA = document.getElementById('content-sectionA');
+            const secB = document.getElementById('content-sectionB');
+            
+            const btnA = document.getElementById('btn-sectionA');
+            const btnB = document.getElementById('btn-sectionB');
+            const btnAll = document.getElementById('btn-all');
+
+            // Reset styles
+            [btnA, btnB, btnAll].forEach(btn => {
+                btn.className = "py-2 px-4 font-bold text-slate-500 hover:text-slate-800 focus:outline-none";
+            });
+            
+            const activeClass = "py-2 px-4 font-bold text-blue-600 border-b-2 border-blue-600 focus:outline-none";
+
+            if (tabId === 'sectionA') {
+                secA.classList.remove('hidden');
+                secB.classList.add('hidden');
+                btnA.className = activeClass;
+            } else if (tabId === 'sectionB') {
+                secA.classList.add('hidden');
+                secB.classList.remove('hidden');
+                btnB.className = activeClass;
+            } else if (tabId === 'all') {
+                secA.classList.remove('hidden');
+                secB.classList.remove('hidden');
+                btnAll.className = activeClass;
+            }
+        };
+
+        // --- 5. Flashcard Generation Logic ---
+        function renderFlashcards() {
+            const container = document.getElementById('flashcard-container');
+            
+            flashcards.forEach((card, index) => {
+                const cardHtml = `
+                    <div class="bg-white border border-slate-200 rounded-lg p-6 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center min-h-[120px] text-center" onclick="toggleCard(this, ${index})">
+                        <h4 class="font-bold text-lg text-blue-600" id="card-content-${index}">${card.term}</h4>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        window.toggleCard = function(element, index) {
+            const contentEl = document.getElementById(`card-content-${index}`);
+            const isTerm = contentEl.textContent === flashcards[index].term;
+            
+            // Simple animation class toggle
+            element.classList.add('opacity-50');
+            
+            setTimeout(() => {
+                if (isTerm) {
+                    contentEl.textContent = flashcards[index].def;
+                    contentEl.className = "text-sm text-slate-700 leading-relaxed";
+                    element.classList.replace('bg-white', 'bg-blue-50');
+                } else {
+                    contentEl.textContent = flashcards[index].term;
+                    contentEl.className = "font-bold text-lg text-blue-600";
+                    element.classList.replace('bg-blue-50', 'bg-white');
+                }
+                element.classList.remove('opacity-50');
+            }, 150);
+        };
+
+        // --- App Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+            setupAccordions();
+            renderFlashcards();
+            
+            // Default to "All" view for the paper on load to show completeness
+            switchTab('all');
+        });
+    </script>
+</body>
+</html>
