@@ -1,0 +1,114 @@
+
+<style>
+body { margin: 0; padding: 0; 
+background-color: black;}
+#erd {
+  padding: 24px 16px;
+  font-family: var(--font-sans);
+}
+#erd svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+</style>
+<div id="erd"></div>
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+await document.fonts.ready;
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  er: { layoutDirection: 'TB', minEntityWidth: 100, minEntityHeight: 75, entityPadding: 15, useMaxWidth: true },
+  fontFamily: '"Anthropic Sans", sans-serif',
+  themeVariables: {
+    darkMode: dark,
+    fontSize: '14px',
+    fontFamily: '"Anthropic Sans", sans-serif',
+    lineColor:         dark ? '#8b8a83' : '#5f5e5a',
+    textColor:         dark ? '#d4d2c8' : '#2c2c2a',
+    primaryColor:      dark ? '#26243e' : '#eeedfe',
+    primaryBorderColor:dark ? '#534ab7' : '#7f77dd',
+     primaryTextColor:  dark ? '#ceccf5' : '#26215c',
+    // primaryTextColor:  dark ? '#ceccf5' : '#26215c',
+    secondaryColor:    dark ? '#1a2e26' : '#e1f5ee',
+    secondaryBorderColor: dark ? '#0f6e56' : '#1d9e75',
+    secondaryTextColor:dark ? '#9fe1cb' : '#04342c',
+    tertiaryColor:     dark ? '#2e1c0a' : '#faeeda',
+    tertiaryBorderColor:dark ? '#854f0b' : '#ba7517',
+    tertiaryTextColor: dark ? '#fac775' : '#412402',
+    attributeBackgroundColorEven: dark ? '#18171a' : '#ffffff',
+    attributeBackgroundColorOdd:  dark ? '#211f26' : '#f5f4fb',
+  },
+});
+
+const diagram = `erDiagram
+  USERS {
+    int id PK
+    string name
+    string email
+    string password
+    timestamp created_at
+  }
+  STUDENT_PROFILES {
+    int id PK
+    int user_id FK
+    string course
+    int semester
+  }
+  SUBJECTS {
+    int id PK
+    int user_id FK
+    string subject_name
+    boolean is_important
+  }
+  CAREER_PATHS {
+    int id PK
+    string name
+  }
+  ROADMAP_STEPS {
+    int id PK
+    int career_id FK
+    int step_order
+    string step_title
+  }
+  DAILY_TASKS {
+    int id PK
+    int user_id FK
+    string task
+    int day_number
+    boolean is_completed
+  }
+
+  USERS ||--|| STUDENT_PROFILES  : "has one profile"
+  USERS ||--o{ SUBJECTS          : "adds subjects"
+  USERS ||--o{ DAILY_TASKS       : "assigned tasks"
+  CAREER_PATHS ||--o{ ROADMAP_STEPS : "has steps"
+`;
+
+const { svg } = await mermaid.render('erd-svg', diagram);
+document.getElementById('erd').innerHTML = svg;
+
+// Round entity box corners
+document.querySelectorAll('#erd .node').forEach(node => {
+  const fp = node.querySelector('path[d]');
+  if (!fp) return;
+  const nums = fp.getAttribute('d').match(/-?[\d.]+/g)?.map(Number);
+  if (!nums || nums.length < 8) return;
+  const xs = [nums[0],nums[2],nums[4],nums[6]];
+  const ys = [nums[1],nums[3],nums[5],nums[7]];
+  const x=Math.min(...xs), y=Math.min(...ys), w=Math.max(...xs)-x, h=Math.max(...ys)-y;
+  const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+  rect.setAttribute('x',x); rect.setAttribute('y',y);
+  rect.setAttribute('width',w); rect.setAttribute('height',h);
+  rect.setAttribute('rx','10');
+  for(const a of ['fill','stroke','stroke-width','class','style'])
+    if(fp.hasAttribute(a)) rect.setAttribute(a,fp.getAttribute(a));
+  fp.replaceWith(rect);
+});
+
+// Strip row borders
+document.querySelectorAll('#erd .row-rect-odd path, #erd .row-rect-even path')
+  .forEach(p => p.setAttribute('stroke','none'));
+</script>
